@@ -36,7 +36,7 @@ class BlogTagResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Category name')
+                    ->label('Tag name')
                     ->sortable()
                     ->searchable(),
 
@@ -56,23 +56,14 @@ class BlogTagResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                //Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBlogTags::route('/'),
-            'create' => Pages\CreateBlogTag::route('/create'),
-            'edit' => Pages\EditBlogTag::route('/{record}/edit'),
+            'index' => Pages\ManageBlogTags::route('/'),
         ];
     }
 }
