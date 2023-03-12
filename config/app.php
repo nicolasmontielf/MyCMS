@@ -193,8 +193,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Permission' => Spatie\Permission\Models\Permission::class,
-        'Role' => Spatie\Permission\Models\Role::class,
+        //
     ])->toArray(),
 
 ];
