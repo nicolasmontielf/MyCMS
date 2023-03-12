@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Role extends SpatieRole {
 
-    public const SUPER_ADMIN = 'super-admin';
+    public const SUPER_ADMIN = 'superadmin';
 
     /**
      * The "booted" method of the model.

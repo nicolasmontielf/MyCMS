@@ -56,9 +56,10 @@ class UserResource extends Resource
                     ->label('Phone')
                     ->maxLength(20),
 
-                // Forms\Components\Select::make('roles')
-                //     ->relationship('roles', 'name')
-                //     ->preload()
+                Forms\Components\Select::make('role')
+                    ->relationship('role', 'name')
+                    ->preload()
+                    ->visibleOn('create')
             ]);
     }
 
@@ -76,7 +77,7 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TagsColumn::make('roles.name')
+                Tables\Columns\TextColumn::make('role.name')
                     ->label('Role')
             ])
             ->filters([

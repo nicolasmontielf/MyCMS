@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -16,16 +16,15 @@ class SuperAdminSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        $role = Role::create(['name' => Role::SUPER_ADMIN]);
+        User::create([
+            'role_id' => $role->id,
             'document' => '123456',
             'first_name' => 'Nicolas',
             'last_name' => 'Montiel',
             'email' => 'nicolasmontielf@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
-
-        Role::create(['name' => 'super-admin']);
-
-        $user->assignRole('super-admin');
+        Role::create(['name' => 'Admin']);
     }
 }

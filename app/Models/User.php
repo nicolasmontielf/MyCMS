@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable implements FilamentUser, HasName
 {
@@ -21,6 +22,7 @@ class User extends Authenticatable implements FilamentUser, HasName
      * @var array<int, string>
      */
     protected $fillable = [
+        'role_id',
         'document',
         'first_name',
         'last_name',
@@ -54,7 +56,7 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function canAccessFilament(): bool
     {
-        return $this->hasAnyRole(Role::all()) && $this->active;
+        return $this->role()->exists() && $this->active;
     }
 
     public function getFilamentName(): string
@@ -64,5 +66,13 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function getFullNameAttribute() {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isSuperAdmin() {
+        return $this->role()->exists() && $this->role->name == Role::SUPER_ADMIN;
     }
 }
