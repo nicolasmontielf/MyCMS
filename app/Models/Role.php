@@ -13,8 +13,8 @@ class Role extends SpatieRole {
      */
     protected static function booted(): void
     {
-        static::addGlobalScope('hide_super', function (Builder $builder) {
-            $builder->where('name', '<>', self::SUPER_ADMIN);
-        });
+        // static::addGlobalScope('hide_super', function (Builder $builder) {
+        //     $builder->where('name', '<>', self::SUPER_ADMIN);
+        // });
     }
 }

@@ -54,7 +54,7 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function canAccessFilament(): bool
     {
-        return $this->hasAnyRole(Role::all());
+        return $this->hasAnyRole(Role::all()) && $this->active;
     }
 
     public function getFilamentName(): string
