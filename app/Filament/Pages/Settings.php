@@ -15,10 +15,6 @@ class Settings extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
-
-    protected static ?string $navigationGroup = 'Account';
-
     protected static string $view = 'filament.pages.settings';
 
     public $name;
@@ -38,6 +34,11 @@ class Settings extends Page implements HasForms
             'last_name' => auth()->user()->last_name,
             'email' => auth()->user()->email,
         ]);
+    }
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 
     public function submit()
