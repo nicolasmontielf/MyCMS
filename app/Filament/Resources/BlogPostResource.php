@@ -40,6 +40,7 @@ class BlogPostResource extends Resource
 
                 Forms\Components\RichEditor::make('body')
                     ->required()
+                    ->columnSpan('full')
             ]);
     }
 
