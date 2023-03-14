@@ -31,6 +31,8 @@ class RoleResource extends Resource
 
                 Forms\Components\CheckboxList::make('permissions')
                     ->relationship('permissions', 'name')
+                    ->columnSpan('full')
+                    ->columns(3)
                     ->required()
             ]);
     }

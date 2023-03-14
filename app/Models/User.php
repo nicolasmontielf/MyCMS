@@ -75,4 +75,12 @@ class User extends Authenticatable implements FilamentUser, HasName
     public function isSuperAdmin() {
         return $this->role()->exists() && $this->role->name == Role::SUPER_ADMIN;
     }
+
+    public function permissionsListName() {
+        return $this->role->permissions->pluck('name')->toArray();
+    }
+
+    public function hasPermissions(string $permissionsName): bool {
+        return in_array($permissionsName, $this->permissionsListName());
+    }
 }
