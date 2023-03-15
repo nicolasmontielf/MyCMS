@@ -56,8 +56,9 @@ class UserResource extends Resource
                     ->label('Phone')
                     ->maxLength(20),
 
-                Forms\Components\Select::make('role')
+                Forms\Components\Select::make('role_id')
                     ->relationship('role', 'name')
+                    ->required()
                     ->preload()
                     ->visibleOn('create')
             ]);
@@ -106,5 +107,11 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->where('email', '!=', 'nicolasmontielf@gmail.com');
     }
 }

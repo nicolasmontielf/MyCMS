@@ -54,9 +54,21 @@ class User extends Authenticatable implements FilamentUser, HasName
         'email_verified_at' => 'datetime',
     ];
 
+    public function hasAnyRole() {
+        return $this->role()->exists();
+    }
+
+    public function isActive(): bool {
+        return !!$this->active;
+    }
+
+    public function hasAnyRoleAndIsActive(): bool {
+        return $this->hasAnyRole() && $this->isActive();
+    }
+
     public function canAccessFilament(): bool
     {
-        return $this->role()->exists() && $this->active;
+        return $this->hasAnyRoleAndIsActive();
     }
 
     public function getFilamentName(): string
@@ -76,7 +88,7 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->role()->exists() && $this->role->name == Role::SUPER_ADMIN;
     }
 
-    public function permissionsListName() {
+    private function permissionsListName() {
         return $this->role->permissions->pluck('name')->toArray();
     }
 
