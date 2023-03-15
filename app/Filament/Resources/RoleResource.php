@@ -46,6 +46,10 @@ class RoleResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('users2_count')
+                    ->label('Users with role')
+                    ->counts('users2'),
+
                 Tables\Columns\TextColumn::make('permissions_count')
                     ->label('Permissions count')
                     ->counts('permissions'),
@@ -61,7 +65,8 @@ class RoleResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->disabled(fn($record) => $record->users2()->count() > 0)
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),

@@ -8,6 +8,10 @@ class Role extends SpatieRole {
 
     public const SUPER_ADMIN = 'superadmin';
 
+    public function users2() {
+        return $this->hasMany(User::class);
+    }
+
     /**
      * The "booted" method of the model.
      */
