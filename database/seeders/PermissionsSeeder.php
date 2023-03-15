@@ -19,11 +19,11 @@ class PermissionsSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'Admin']);
 
         // Permissions
-        $categoriesPermissions = ['categories.create', 'categories.update', 'categories.delete'];
-        $tagsPermissions = ['tags.create', 'tags.delete'];
-        $postsPermissions = ['posts.create', 'posts.update', 'posts.update.own', 'posts.delete.own', 'posts.delete'];
-        $rolePermissions = ['roles.create', 'roles.update', 'roles.delete', 'roles.list'];
-        $userPermissions = ['users.create', 'users.update', 'users.delete', 'users.list'];
+        $categoriesPermissions = ['blog_category.create', 'blog_category.update', 'blog_category.delete'];
+        $tagsPermissions = ['blog_tag.create', 'blog_tag.delete'];
+        $postsPermissions = ['blog_post.create', 'blog_post.update', 'blog_post.update.own', 'blog_post.delete.own', 'blog_post.delete'];
+        $rolePermissions = ['role.create', 'role.update', 'role.delete', 'role.list'];
+        $userPermissions = ['user.create', 'user.update', 'user.delete', 'user.list'];
 
         $permissions = array_merge($categoriesPermissions, $tagsPermissions, $postsPermissions, $rolePermissions, $userPermissions);
 
