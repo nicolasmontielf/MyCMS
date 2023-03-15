@@ -44,19 +44,22 @@ class BlogTagResource extends Resource
                     ->label('Slug')
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('posts_count')
+                    ->label('Posts using tag')
+                    ->counts('posts'),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated at')
-                    ->sortable()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
