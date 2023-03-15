@@ -40,7 +40,17 @@ class BlogPostResource extends Resource
 
                 Forms\Components\RichEditor::make('body')
                     ->required()
-                    ->columnSpan('full')
+                    ->columnSpan('full'),
+
+                Forms\Components\Select::make('tags')
+                    ->multiple()
+                    ->preload()
+                    ->relationship('tags', 'name')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required(),
+                    ])
+
             ]);
     }
 

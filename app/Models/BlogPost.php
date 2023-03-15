@@ -33,7 +33,9 @@ class BlogPost extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(BlogTag::class, 'blog_post_tag', 'post_id', 'tag_id');
+        return $this
+            ->belongsToMany(BlogTag::class, 'blog_post_tag', 'post_id', 'tag_id')
+            ->withTimestamps();
     }
 
     public function user()
