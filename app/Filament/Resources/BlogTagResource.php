@@ -56,7 +56,8 @@ class BlogTagResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->disabled(fn($record) => $record->posts_count > 0)
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),
