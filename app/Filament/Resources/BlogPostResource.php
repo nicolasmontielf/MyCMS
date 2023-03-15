@@ -10,6 +10,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -46,10 +47,15 @@ class BlogPostResource extends Resource
                     ->multiple()
                     ->preload()
                     ->relationship('tags', 'name')
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->required(),
-                    ])
+                    ->createOptionForm(function () {
+                        $user = Auth::user();
+                        return $user->hasPermissions('blog_tag.create')
+                        ? [
+                            Forms\Components\TextInput::make('name')
+                            ->required()
+                        ]
+                        : [];
+                    })
 
             ]);
     }

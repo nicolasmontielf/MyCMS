@@ -46,6 +46,10 @@ class BlogCategoryResource extends Resource
                     ->label('Slug')
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('posts_count')
+                    ->label('Posts in category')
+                    ->counts('posts'),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated at')
                     ->sortable()
