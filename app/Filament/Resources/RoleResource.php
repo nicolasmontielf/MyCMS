@@ -17,19 +17,36 @@ class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationLabel = 'Roles';
-    protected static ?string $navigationGroup = 'Users';
+
+    protected static function getNavigationLabel(): string {
+        return __('resources/role.navigation.label');
+    }
+
+    protected static function getNavigationGroup(): string {
+        return __('resources/role.navigation.group');
+    }
+
+    public static function getModelLabel(): string {
+        return __('resources/role.label');
+    }
+
+    public static function getPluralModelLabel(): string {
+        return __('resources/role.labelPlural');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('resources/role.forms.name.label'))
+                    ->placeholder(__('resources/role.forms.name.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\CheckboxList::make('permissions')
+                    ->label(__('resources/role.forms.permissions.label'))
                     ->relationship('permissions', 'name')
                     ->columnSpan('full')
                     ->columns(3)
@@ -42,20 +59,20 @@ class RoleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Role name')
+                    ->label(__('resources/role.table.name'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('users2_count')
-                    ->label('Users with role')
+                    ->label(__('resources/role.table.users2_count'))
                     ->counts('users2'),
 
                 Tables\Columns\TextColumn::make('permissions_count')
-                    ->label('Permissions count')
+                    ->label(__('resources/role.table.permissions_count'))
                     ->counts('permissions'),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('resources/role.table.updated_at'))
                     ->sortable()
                     ->searchable(),
 
