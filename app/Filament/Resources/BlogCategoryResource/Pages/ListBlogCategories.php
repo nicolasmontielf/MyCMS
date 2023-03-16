@@ -10,6 +10,10 @@ class ListBlogCategories extends ListRecords
 {
     protected static string $resource = BlogCategoryResource::class;
 
+    protected function getTitle(): string {
+        return __('resources/blog_category.labelPlural');
+    }
+
     protected function getActions(): array
     {
         return [

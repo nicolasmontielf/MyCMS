@@ -15,20 +15,38 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BlogCategoryResource extends Resource
 {
     protected static ?string $model = BlogCategory::class;
-    protected static ?string $navigationLabel = 'Categories';
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = 'Blogs';
+
+    protected static function getNavigationLabel(): string {
+        return __('resources/blog_category.navigation.label');
+    }
+
+    protected static function getNavigationGroup(): string {
+        return __('resources/blog_category.navigation.group');
+    }
+
+    public static function getModelLabel(): string {
+        return __('resources/blog_category.label');
+    }
+
+    public static function getPluralModelLabel(): string {
+        return __('resources/blog_category.labelPlural');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('resources/blog_category.forms.name.label'))
+                    ->placeholder(__('resources/blog_category.forms.name.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\Textarea::make('description')
+                    ->label(__('resources/blog_category.forms.description.label'))
+                    ->placeholder(__('resources/blog_category.forms.description.placeholder'))
                     ->nullable(),
             ]);
     }
@@ -38,20 +56,20 @@ class BlogCategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Category name')
+                    ->label(__('resources/blog_category.table.name'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('resources/blog_category.table.slug'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('posts_count')
-                    ->label('Posts in category')
+                    ->label(__('resources/blog_category.table.posts_count'))
                     ->counts('posts'),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated at')
+                    ->label(__('resources/blog_category.table.updated_at'))
                     ->sortable()
             ])
             ->filters([
@@ -61,6 +79,7 @@ class BlogCategoryResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
                     ->disabled(fn($record) => $record->posts_count > 0)
+
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),
