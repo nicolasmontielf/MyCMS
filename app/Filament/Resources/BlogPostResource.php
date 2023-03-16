@@ -17,42 +17,68 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BlogPostResource extends Resource
 {
     protected static ?string $model = BlogPost::class;
-    protected static ?string $navigationLabel = 'Posts';
     protected static ?string $navigationIcon = 'heroicon-o-pencil';
-    protected static ?string $navigationGroup = 'Blogs';
+
+    protected static function getNavigationLabel(): string {
+        return __('resources/blog_post.navigation.label');
+    }
+
+    protected static function getNavigationGroup(): string {
+        return __('resources/blog_post.navigation.group');
+    }
+
+    public static function getModelLabel(): string {
+        return __('resources/blog_post.label');
+    }
+
+    public static function getPluralModelLabel(): string {
+        return __('resources/blog_post.labelPlural');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->label(__('resources/blog_post.form.title.label'))
+                    ->placeholder(__('resources/blog_post.form.title.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\Select::make('category_id')
-                    ->label('Blog Category')
+                    ->label(__('resources/blog_post.form.category.label'))
+                    ->placeholder(__('resources/blog_post.form.category.placeholder'))
                     ->relationship('category', 'name')
                     ->required(),
 
                 Forms\Components\TextInput::make('subtitle')
+                    ->label(__('resources/blog_post.form.subtitle.label'))
+                    ->placeholder(__('resources/blog_post.form.subtitle.placeholder'))
                     ->nullable()
                     ->maxLength(255),
 
                 Forms\Components\RichEditor::make('body')
+                    ->label(__('resources/blog_post.form.body.label'))
+                    ->placeholder(__('resources/blog_post.form.body.placeholder'))
                     ->required()
                     ->columnSpan('full'),
 
                 Forms\Components\Select::make('tags')
+                    ->label(__('resources/blog_post.form.tags.label'))
+                    ->placeholder(__('resources/blog_post.form.tags.placeholder'))
                     ->multiple()
                     ->preload()
                     ->relationship('tags', 'name')
                     ->createOptionForm(function () {
                         $user = Auth::user();
-                        return $user->hasPermissions('blog_tag.create')
+                        return $user->hasPermissions('blog_tag.create') || $user->isSuperAdmin()
                         ? [
                             Forms\Components\TextInput::make('name')
-                            ->required()
+                                ->label(__('resources/blog_post.form.new_tag.label'))
+                                ->placeholder(__('resources/blog_post.form.new_tag.placeholder'))
+                                ->autofocus()
+                                ->required()
                         ]
                         : [];
                     })
@@ -65,14 +91,14 @@ class BlogPostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Post title')
+                    ->label(__('resources/blog_post.table.name'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Category')
+                    ->label(__('resources/blog_post.table.category'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.fullName')
-                    ->label('Author')
+                    ->label(__('resources/blog_post.table.author'))
                     ->searchable(),
 
             ])
