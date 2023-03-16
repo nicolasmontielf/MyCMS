@@ -16,15 +16,31 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BlogTagResource extends Resource
 {
     protected static ?string $model = BlogTag::class;
-    protected static ?string $navigationLabel = 'Tags';
     protected static ?string $navigationIcon = 'heroicon-o-tag';
-    protected static ?string $navigationGroup = 'Blogs';
+
+    protected static function getNavigationLabel(): string {
+        return __('resources/blog_tag.navigation.label');
+    }
+
+    protected static function getNavigationGroup(): string {
+        return __('resources/blog_tag.navigation.group');
+    }
+
+    public static function getModelLabel(): string {
+        return __('resources/blog_tag.label');
+    }
+
+    public static function getPluralModelLabel(): string {
+        return __('resources/blog_tag.labelPlural');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('resources/blog_tag.form.name.label'))
+                    ->placeholder(__('resources/blog_tag.form.name.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
@@ -36,20 +52,20 @@ class BlogTagResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Tag name')
+                    ->label(__('resources/blog_tag.table.name'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('resources/blog_tag.table.slug'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('posts_count')
-                    ->label('Posts using tag')
+                    ->label(__('resources/blog_tag.table.posts_count'))
                     ->counts('posts'),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated at')
+                    ->label(__('resources/blog_tag.table.updated_at'))
                     ->sortable(),
             ])
             ->filters([
