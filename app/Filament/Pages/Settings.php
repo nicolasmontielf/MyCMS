@@ -36,6 +36,10 @@ class Settings extends Page implements HasForms
         ]);
     }
 
+    public function getTitle(): string {
+        return __('resources/profile.name');
+    }
+
     protected static function shouldRegisterNavigation(): bool
     {
         return false;
@@ -56,7 +60,7 @@ class Settings extends Page implements HasForms
         $user->update($state);
 
         $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
-        $this->notify('success', 'Your profile has been updated.');
+        $this->notify('success', __('resources/profile.form.messages.success'));
     }
 
     public function getCancelButtonUrlProperty()
@@ -67,29 +71,31 @@ class Settings extends Page implements HasForms
     protected function getBreadcrumbs(): array
     {
         return [
-            url()->current() => 'My Profile',
+            url()->current() => __('resources/profile.name'),
         ];
     }
 
     protected function getFormSchema(): array
     {
         return [
-            Section::make('General')
+            Section::make(__('resources/profile.form.sections.general'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('first_name')
+                        ->label(__('resources/profile.form.fields.first_name'))
                         ->required(),
                     TextInput::make('last_name')
+                        ->label(__('resources/profile.form.fields.last_name'))
                         ->required(),
                     TextInput::make('email')
-                        ->label('Email Address')
+                        ->label(__('resources/profile.form.fields.email'))
                         ->disabled(),
                 ]),
-            Section::make('Update Password')
+            Section::make(__('resources/profile.form.sections.password'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('current_password')
-                        ->label('Current Password')
+                    ->label(__('resources/profile.form.fields.current_password'))
                         ->password()
                         ->rules(['required_with:new_password'])
                         ->currentPassword()
@@ -98,12 +104,13 @@ class Settings extends Page implements HasForms
                     Grid::make()
                         ->schema([
                             TextInput::make('new_password')
-                                ->label('New Password')
+                                ->label(__('resources/profile.form.fields.new_password'))
                                 ->password()
                                 ->rules(['confirmed'])
                                 ->autocomplete('new-password'),
+
                             TextInput::make('new_password_confirmation')
-                                ->label('Confirm Password')
+                                ->label(__('resources/profile.form.fields.new_password_confirmation'))
                                 ->password()
                                 ->rules([
                                     'required_with:new_password',
