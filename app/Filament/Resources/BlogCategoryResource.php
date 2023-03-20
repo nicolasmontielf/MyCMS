@@ -4,13 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogCategoryResource\Pages;
 use App\Models\BlogCategory;
-use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\{TextInput, Textarea};
+use Filament\Tables\Columns\{TextColumn};
+use Filament\Tables\Actions\{EditAction, DeleteAction};
 
 class BlogCategoryResource extends Resource
 {
@@ -37,14 +36,14 @@ class BlogCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label(__('resources/blog_category.forms.name.label'))
                     ->placeholder(__('resources/blog_category.forms.name.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->label(__('resources/blog_category.forms.description.label'))
                     ->placeholder(__('resources/blog_category.forms.description.placeholder'))
                     ->nullable(),
@@ -55,20 +54,20 @@ class BlogCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('resources/blog_category.table.name'))
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('slug')
+                TextColumn::make('slug')
                     ->label(__('resources/blog_category.table.slug'))
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('posts_count')
+                TextColumn::make('posts_count')
                     ->label(__('resources/blog_category.table.posts_count'))
                     ->counts('posts'),
 
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label(__('resources/blog_category.table.updated_at'))
                     ->sortable()
             ])
@@ -76,8 +75,8 @@ class BlogCategoryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                EditAction::make(),
+                DeleteAction::make()
                     ->disabled(fn($record) => $record->posts_count > 0)
 
             ])

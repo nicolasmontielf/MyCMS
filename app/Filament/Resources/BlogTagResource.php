@@ -3,15 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogTagResource\Pages;
-use App\Filament\Resources\BlogTagResource\RelationManagers;
 use App\Models\BlogTag;
-use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\{TextInput};
+use Filament\Tables\Columns\{TextColumn};
+use Filament\Tables\Actions\{DeleteAction};
 
 class BlogTagResource extends Resource
 {
@@ -38,7 +36,7 @@ class BlogTagResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label(__('resources/blog_tag.form.name.label'))
                     ->placeholder(__('resources/blog_tag.form.name.placeholder'))
                     ->autofocus()
@@ -51,20 +49,20 @@ class BlogTagResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('resources/blog_tag.table.name'))
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('slug')
+                TextColumn::make('slug')
                     ->label(__('resources/blog_tag.table.slug'))
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('posts_count')
+                TextColumn::make('posts_count')
                     ->label(__('resources/blog_tag.table.posts_count'))
                     ->counts('posts'),
 
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label(__('resources/blog_tag.table.updated_at'))
                     ->sortable(),
             ])
@@ -72,7 +70,7 @@ class BlogTagResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make()
+                DeleteAction::make()
                     ->disabled(fn($record) => $record->posts_count > 0)
             ])
             ->bulkActions([

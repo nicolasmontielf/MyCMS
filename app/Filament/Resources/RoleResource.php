@@ -3,15 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoleResource\Pages;
-use App\Filament\Resources\RoleResource\RelationManagers;
 use App\Models\Role;
-use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\{TextInput, CheckboxList};
+use Filament\Tables\Columns\{TextColumn};
+use Filament\Tables\Actions\{EditAction, DeleteAction};
 
 class RoleResource extends Resource
 {
@@ -38,14 +37,14 @@ class RoleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label(__('resources/role.forms.name.label'))
                     ->placeholder(__('resources/role.forms.name.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\CheckboxList::make('permissions')
+                CheckboxList::make('permissions')
                     ->label(__('resources/role.forms.permissions.label'))
                     ->relationship('permissions', 'name')
                     ->columnSpan('full')
@@ -58,20 +57,20 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('resources/role.table.name'))
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('users2_count')
+                TextColumn::make('users2_count')
                     ->label(__('resources/role.table.users2_count'))
                     ->counts('users2'),
 
-                Tables\Columns\TextColumn::make('permissions_count')
+                TextColumn::make('permissions_count')
                     ->label(__('resources/role.table.permissions_count'))
                     ->counts('permissions'),
 
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label(__('resources/role.table.updated_at'))
                     ->sortable()
                     ->searchable(),
@@ -81,8 +80,8 @@ class RoleResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                EditAction::make(),
+                DeleteAction::make()
                     ->disabled(fn($record) => $record->users2()->count() > 0)
             ])
             ->bulkActions([

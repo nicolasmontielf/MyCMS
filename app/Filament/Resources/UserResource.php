@@ -3,15 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\{TextInput, Select};
+use Filament\Tables\Columns\{TextColumn};
+use Filament\Tables\Actions\{EditAction, DeleteAction};
 
 class UserResource extends Resource
 {
@@ -38,32 +37,32 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('document')
+                TextInput::make('document')
                     ->label(__('resources/user.forms.document.label'))
                     ->placeholder(__('resources/user.forms.document.placeholder'))
                     ->maxLength(15),
 
-                Forms\Components\TextInput::make('first_name')
+                TextInput::make('first_name')
                     ->label(__('resources/user.forms.firstName.label'))
                     ->placeholder(__('resources/user.forms.firstName.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(100),
 
-                Forms\Components\TextInput::make('last_name')
+                TextInput::make('last_name')
                     ->label(__('resources/user.forms.lastName.label'))
                     ->placeholder(__('resources/user.forms.lastName.placeholder'))
                     ->required()
                     ->maxLength(100),
 
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->label(__('resources/user.forms.email.label'))
                     ->placeholder(__('resources/user.forms.email.placeholder'))
                     ->type('email')
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                     ->label(__('resources/user.forms.password.label'))
                     ->placeholder(__('resources/user.forms.role.placeholder'))
                     ->type('password')
@@ -71,12 +70,12 @@ class UserResource extends Resource
                     ->visibleOn('create')
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('phone')
+                TextInput::make('phone')
                     ->label(__('resources/user.forms.phone.label'))
                     ->placeholder(__('resources/user.forms.phone.placeholder'))
                     ->maxLength(20),
 
-                Forms\Components\Select::make('role_id')
+                Select::make('role_id')
                     ->relationship('role', 'name')
                     ->label(__('resources/user.forms.role.label'))
                     ->placeholder(__('resources/user.forms.role.placeholder'))
@@ -90,25 +89,25 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('fullName')
+                TextColumn::make('fullName')
                     ->label(__('resources/user.table.name'))
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label(__('resources/user.table.email'))
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('role.name')
+                TextColumn::make('role.name')
                     ->label(__('resources/user.table.role'))
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),

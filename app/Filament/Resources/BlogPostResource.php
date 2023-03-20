@@ -3,16 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogPostResource\Pages;
-use App\Filament\Resources\BlogPostResource\RelationManagers;
 use App\Models\BlogPost;
-use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
 use Auth;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\{TextInput, Select, RichEditor};
+use Filament\Tables\Columns\{TextColumn};
+use Filament\Tables\Actions\{EditAction, DeleteAction};
 
 class BlogPostResource extends Resource
 {
@@ -39,32 +37,32 @@ class BlogPostResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
+                TextInput::make('title')
                     ->label(__('resources/blog_post.form.title.label'))
                     ->placeholder(__('resources/blog_post.form.title.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\Select::make('category_id')
+                Select::make('category_id')
                     ->label(__('resources/blog_post.form.category.label'))
                     ->placeholder(__('resources/blog_post.form.category.placeholder'))
                     ->relationship('category', 'name')
                     ->required(),
 
-                Forms\Components\TextInput::make('subtitle')
+                TextInput::make('subtitle')
                     ->label(__('resources/blog_post.form.subtitle.label'))
                     ->placeholder(__('resources/blog_post.form.subtitle.placeholder'))
                     ->nullable()
                     ->maxLength(255),
 
-                Forms\Components\RichEditor::make('body')
+                RichEditor::make('body')
                     ->label(__('resources/blog_post.form.body.label'))
                     ->placeholder(__('resources/blog_post.form.body.placeholder'))
                     ->required()
                     ->columnSpan('full'),
 
-                Forms\Components\Select::make('tags')
+                Select::make('tags')
                     ->label(__('resources/blog_post.form.tags.label'))
                     ->placeholder(__('resources/blog_post.form.tags.placeholder'))
                     ->multiple()
@@ -74,7 +72,7 @@ class BlogPostResource extends Resource
                         $user = Auth::user();
                         return $user->hasPermissions('blog_tag.create') || $user->isSuperAdmin()
                         ? [
-                            Forms\Components\TextInput::make('name')
+                            TextInput::make('name')
                                 ->label(__('resources/blog_post.form.new_tag.label'))
                                 ->placeholder(__('resources/blog_post.form.new_tag.placeholder'))
                                 ->autofocus()
@@ -90,14 +88,14 @@ class BlogPostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label(__('resources/blog_post.table.name'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('category.name')
+                TextColumn::make('category.name')
                     ->label(__('resources/blog_post.table.category'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user.fullName')
+                TextColumn::make('user.fullName')
                     ->label(__('resources/blog_post.table.author'))
                     ->searchable(),
 
@@ -106,8 +104,8 @@ class BlogPostResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),

@@ -3,15 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BannerResource\Pages;
-use App\Filament\Resources\BannerResource\RelationManagers;
 use App\Models\Banner;
-use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\{TextInput, Textarea, FileUpload, Toggle, DatePicker};
+use Filament\Tables\Columns\{ImageColumn, BadgeColumn, TextColumn};
+use Filament\Tables\Actions\{EditAction, DeleteAction};
 
 class BannerResource extends Resource
 {
@@ -34,56 +32,56 @@ class BannerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
+                TextInput::make('title')
                     ->label(__('resources/banner.form.title.label'))
                     ->placeholder(__('resources/banner.form.title.placeholder'))
                     ->autofocus()
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('subtitle')
+                TextInput::make('subtitle')
                     ->label(__('resources/banner.form.subtitle.label'))
                     ->placeholder(__('resources/banner.form.subtitle.placeholder'))
                     ->maxLength(255),
 
-                Forms\Components\Textarea::make('text')
+                Textarea::make('text')
                     ->label(__('resources/banner.form.text.label'))
                     ->placeholder(__('resources/banner.form.text.placeholder'))
                     ->columnSpan('full'),
 
-                Forms\Components\TextInput::make('cta')
+                TextInput::make('cta')
                     ->label(__('resources/banner.form.cta.label'))
                     ->placeholder(__('resources/banner.form.cta.placeholder'))
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('cta_url')
+                TextInput::make('cta_url')
                     ->label(__('resources/banner.form.cta_url.label'))
                     ->placeholder(__('resources/banner.form.cta_url.placeholder'))
                     ->maxLength(255),
 
-                Forms\Components\FileUpload::make('image')
+                FileUpload::make('image')
                     ->required()
                     ->label(__('resources/banner.form.image.label'))
                     ->placeholder(__('resources/banner.form.image.placeholder'))
                     ->directory('banners')
                     ->image(),
 
-                Forms\Components\FileUpload::make('image_responsive')
+                FileUpload::make('image_responsive')
                     ->label(__('resources/banner.form.image_responsive.label'))
                     ->placeholder(__('resources/banner.form.image_responsive.placeholder'))
                     ->directory('banners')
                     ->image(),
 
-                Forms\Components\Toggle::make('active')
+                Toggle::make('active')
                     ->label(__('resources/banner.form.active.label'))
                     ->inline(false),
 
-                Forms\Components\DatePicker::make('start_date')
+                DatePicker::make('start_date')
                     ->displayFormat("d/m/Y")
                     ->label(__('resources/banner.form.start_date.label'))
                     ->placeholder(__('resources/banner.form.start_date.placeholder')),
 
-                Forms\Components\DatePicker::make('end_date')
+                DatePicker::make('end_date')
                     ->displayFormat("d/m/Y")
                     ->label(__('resources/banner.form.end_date.label'))
                     ->placeholder(__('resources/banner.form.end_date.placeholder'))
@@ -94,26 +92,26 @@ class BannerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->label(__('resources/banner.table.image')),
 
-                Tables\Columns\ImageColumn::make('image_responsive')
+                ImageColumn::make('image_responsive')
                     ->label(__('resources/banner.table.image_responsive'))
                     ->default(__('resources/banner.aux.image_responsive_default')),
 
-                Tables\Columns\BadgeColumn::make('active')
+                BadgeColumn::make('active')
                     ->label(__('resources/banner.table.active'))
                     ->enum([
                         '0' => __('resources/banner.aux.inactive'),
                         '1' => __('resources/banner.aux.active'),
                     ]),
 
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->label(__('resources/banner.table.start_date'))
                     ->sortable()
                     ->default(__('resources/banner.aux.start_date_default')),
 
-                Tables\Columns\TextColumn::make('end_date')
+                TextColumn::make('end_date')
                     ->label(__('resources/banner.table.end_date'))
                     ->sortable()
                     ->default(__('resources/banner.aux.end_date_default')),
@@ -122,8 +120,8 @@ class BannerResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                EditAction::make(),
+                DeleteAction::make()
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),
