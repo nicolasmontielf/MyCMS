@@ -17710,35 +17710,7 @@
      
 }
 
-        namespace Spatie\Permission\Models { 
-            /**
-     * 
-     *
-     * @property int $id
-     * @property string $name
-     * @property string $guard_name
-     * @property ?\Illuminate\Support\Carbon $created_at
-     * @property ?\Illuminate\Support\Carbon $updated_at
-     */ 
-        class Permission {
-         
-    }
-            /**
-     * 
-     *
-     * @property int $id
-     * @property string $name
-     * @property string $guard_name
-     * @property ?\Illuminate\Support\Carbon $created_at
-     * @property ?\Illuminate\Support\Carbon $updated_at
-     */ 
-        class Role {
-         
-    }
-     
-}
-
-    namespace Livewire { 
+        namespace Livewire { 
             /**
      * 
      *
@@ -23987,8 +23959,6 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
-            class Permission extends \Spatie\Permission\Models\Permission {}
-            class Role extends \Spatie\Permission\Models\Role {}
             class Livewire extends \Livewire\Livewire {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      

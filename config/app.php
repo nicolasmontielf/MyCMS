@@ -180,6 +180,7 @@ return [
 
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
     ],
 
     /*
