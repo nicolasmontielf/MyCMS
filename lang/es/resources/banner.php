@@ -36,7 +36,7 @@ return [
         ],
         'active' => [
             'label' => 'Activo',
-            'placeholder' => 'El bbanner estará disponible',
+            'placeholder' => 'El banner estará disponible',
         ],
         'start_date' => [
             'label' => 'Fecha de inicio',
@@ -57,5 +57,8 @@ return [
     'aux' => [
         'active' => 'Activo',
         'inactive' => 'Inactivo',
+        'image_responsive_default' => 'No hay imagen responsive',
+        'start_date_default' => 'Sin fecha de inicio',
+        'end_date_default' => 'Sin fecha de fin',
     ]
 ];

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
-    //protected static ?string $navigationIcon = 'heroicon-o-image';
+    protected static ?string $navigationIcon = 'heroicon-o-photograph';
 
     protected static function getNavigationLabel(): string {
         return __('resources/banner.navigation.label');
@@ -79,10 +79,12 @@ class BannerResource extends Resource
                     ->inline(false),
 
                 Forms\Components\DatePicker::make('start_date')
+                    ->displayFormat("d/m/Y")
                     ->label(__('resources/banner.form.start_date.label'))
                     ->placeholder(__('resources/banner.form.start_date.placeholder')),
 
                 Forms\Components\DatePicker::make('end_date')
+                    ->displayFormat("d/m/Y")
                     ->label(__('resources/banner.form.end_date.label'))
                     ->placeholder(__('resources/banner.form.end_date.placeholder'))
             ]);
@@ -96,9 +98,11 @@ class BannerResource extends Resource
                     ->label(__('resources/banner.table.image')),
 
                 Tables\Columns\ImageColumn::make('image_responsive')
-                    ->label(__('resources/banner.table.image_responsive')),
+                    ->label(__('resources/banner.table.image_responsive'))
+                    ->default(__('resources/banner.aux.image_responsive_default')),
 
                 Tables\Columns\BadgeColumn::make('active')
+                    ->label(__('resources/banner.table.active'))
                     ->enum([
                         '0' => __('resources/banner.aux.inactive'),
                         '1' => __('resources/banner.aux.active'),
@@ -107,12 +111,12 @@ class BannerResource extends Resource
                 Tables\Columns\TextColumn::make('start_date')
                     ->label(__('resources/banner.table.start_date'))
                     ->sortable()
-                    ->searchable(),
+                    ->default(__('resources/banner.aux.start_date_default')),
 
                 Tables\Columns\TextColumn::make('end_date')
                     ->label(__('resources/banner.table.end_date'))
                     ->sortable()
-                    ->searchable(),
+                    ->default(__('resources/banner.aux.end_date_default')),
             ])
             ->filters([
                 //
