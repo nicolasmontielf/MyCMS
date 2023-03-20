@@ -7,7 +7,7 @@ use App\Models\Banner;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Forms\Components\{TextInput, Textarea, FileUpload, Toggle, DatePicker};
+use Filament\Forms\Components\{TextInput, Textarea, FileUpload, Toggle, DatePicker, Grid};
 use Filament\Tables\Columns\{ImageColumn, BadgeColumn, TextColumn};
 use Filament\Tables\Actions\{EditAction, DeleteAction};
 
@@ -32,59 +32,71 @@ class BannerResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->label(__('resources/banner.form.title.label'))
-                    ->placeholder(__('resources/banner.form.title.placeholder'))
-                    ->autofocus()
-                    ->required()
-                    ->maxLength(255),
+                Grid::make(6)
+                ->schema([
+                    TextInput::make('title')
+                        ->label(__('resources/banner.form.title.label'))
+                        ->placeholder(__('resources/banner.form.title.placeholder'))
+                        ->autofocus()
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'lg' => 3])
+                        ->maxLength(255),
 
-                TextInput::make('subtitle')
-                    ->label(__('resources/banner.form.subtitle.label'))
-                    ->placeholder(__('resources/banner.form.subtitle.placeholder'))
-                    ->maxLength(255),
+                    TextInput::make('subtitle')
+                        ->label(__('resources/banner.form.subtitle.label'))
+                        ->placeholder(__('resources/banner.form.subtitle.placeholder'))
+                        ->columnSpan(['sm' => 1, 'lg' => 3])
+                        ->maxLength(255),
 
-                Textarea::make('text')
-                    ->label(__('resources/banner.form.text.label'))
-                    ->placeholder(__('resources/banner.form.text.placeholder'))
-                    ->columnSpan('full'),
+                    Textarea::make('text')
+                        ->label(__('resources/banner.form.text.label'))
+                        ->placeholder(__('resources/banner.form.text.placeholder'))
+                        ->columnSpan('full'),
 
-                TextInput::make('cta')
-                    ->label(__('resources/banner.form.cta.label'))
-                    ->placeholder(__('resources/banner.form.cta.placeholder'))
-                    ->maxLength(255),
+                    TextInput::make('cta')
+                        ->label(__('resources/banner.form.cta.label'))
+                        ->placeholder(__('resources/banner.form.cta.placeholder'))
+                        ->columnSpan(['sm' => 1, 'lg' => 3])
+                        ->maxLength(255),
 
-                TextInput::make('cta_url')
-                    ->label(__('resources/banner.form.cta_url.label'))
-                    ->placeholder(__('resources/banner.form.cta_url.placeholder'))
-                    ->maxLength(255),
+                    TextInput::make('cta_url')
+                        ->label(__('resources/banner.form.cta_url.label'))
+                        ->placeholder(__('resources/banner.form.cta_url.placeholder'))
+                        ->columnSpan(['sm' => 1, 'lg' => 3])
+                        ->maxLength(255),
 
-                FileUpload::make('image')
-                    ->required()
-                    ->label(__('resources/banner.form.image.label'))
-                    ->placeholder(__('resources/banner.form.image.placeholder'))
-                    ->directory('banners')
-                    ->image(),
+                    FileUpload::make('image')
+                        ->required()
+                        ->label(__('resources/banner.form.image.label'))
+                        ->placeholder(__('resources/banner.form.image.placeholder'))
+                        ->directory('banners')
+                        ->columnSpan(['sm' => 1, 'lg' => 3])
+                        ->image(),
 
-                FileUpload::make('image_responsive')
-                    ->label(__('resources/banner.form.image_responsive.label'))
-                    ->placeholder(__('resources/banner.form.image_responsive.placeholder'))
-                    ->directory('banners')
-                    ->image(),
+                    FileUpload::make('image_responsive')
+                        ->label(__('resources/banner.form.image_responsive.label'))
+                        ->placeholder(__('resources/banner.form.image_responsive.placeholder'))
+                        ->directory('banners')
+                        ->columnSpan(['sm' => 1, 'lg' => 3])
+                        ->image(),
 
-                Toggle::make('active')
-                    ->label(__('resources/banner.form.active.label'))
-                    ->inline(false),
+                    DatePicker::make('start_date')
+                        ->displayFormat("d/m/Y")
+                        ->label(__('resources/banner.form.start_date.label'))
+                        ->columnSpan(['sm' => 1, 'lg' => 2])
+                        ->placeholder(__('resources/banner.form.start_date.placeholder')),
 
-                DatePicker::make('start_date')
-                    ->displayFormat("d/m/Y")
-                    ->label(__('resources/banner.form.start_date.label'))
-                    ->placeholder(__('resources/banner.form.start_date.placeholder')),
+                    DatePicker::make('end_date')
+                        ->displayFormat("d/m/Y")
+                        ->label(__('resources/banner.form.end_date.label'))
+                        ->columnSpan(['sm' => 1, 'lg' => 2])
+                        ->placeholder(__('resources/banner.form.end_date.placeholder')),
 
-                DatePicker::make('end_date')
-                    ->displayFormat("d/m/Y")
-                    ->label(__('resources/banner.form.end_date.label'))
-                    ->placeholder(__('resources/banner.form.end_date.placeholder'))
+                    Toggle::make('active')
+                        ->label(__('resources/banner.form.active.label'))
+                        ->columnSpan(['sm' => 1, 'lg' => 2])
+                        ->inline(false),
+                ])
             ]);
     }
 

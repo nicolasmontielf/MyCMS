@@ -8,7 +8,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Auth;
-use Filament\Forms\Components\{TextInput, Select, RichEditor};
+use Filament\Forms\Components\{TextInput, Select, RichEditor, Grid};
 use Filament\Tables\Columns\{TextColumn};
 use Filament\Tables\Actions\{EditAction, DeleteAction};
 
@@ -56,12 +56,6 @@ class BlogPostResource extends Resource
                     ->nullable()
                     ->maxLength(255),
 
-                RichEditor::make('body')
-                    ->label(__('resources/blog_post.form.body.label'))
-                    ->placeholder(__('resources/blog_post.form.body.placeholder'))
-                    ->required()
-                    ->columnSpan('full'),
-
                 Select::make('tags')
                     ->label(__('resources/blog_post.form.tags.label'))
                     ->placeholder(__('resources/blog_post.form.tags.placeholder'))
@@ -79,8 +73,13 @@ class BlogPostResource extends Resource
                                 ->required()
                         ]
                         : [];
-                    })
+                    }),
 
+                RichEditor::make('body')
+                    ->label(__('resources/blog_post.form.body.label'))
+                    ->placeholder(__('resources/blog_post.form.body.placeholder'))
+                    ->required()
+                    ->columnSpan('full'),
             ]);
     }
 

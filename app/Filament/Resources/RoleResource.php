@@ -8,7 +8,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\{TextInput, CheckboxList};
+use Filament\Forms\Components\{TextInput, CheckboxList, Grid};
 use Filament\Tables\Columns\{TextColumn};
 use Filament\Tables\Actions\{EditAction, DeleteAction};
 
@@ -37,19 +37,22 @@ class RoleResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label(__('resources/role.forms.name.label'))
-                    ->placeholder(__('resources/role.forms.name.placeholder'))
-                    ->autofocus()
-                    ->required()
-                    ->maxLength(255),
+                Grid::make(1)
+                ->schema([
+                    TextInput::make('name')
+                        ->label(__('resources/role.forms.name.label'))
+                        ->placeholder(__('resources/role.forms.name.placeholder'))
+                        ->autofocus()
+                        ->required()
+                        ->maxLength(255),
 
-                CheckboxList::make('permissions')
-                    ->label(__('resources/role.forms.permissions.label'))
-                    ->relationship('permissions', 'name')
-                    ->columnSpan('full')
-                    ->columns(3)
-                    ->required()
+                    CheckboxList::make('permissions')
+                        ->label(__('resources/role.forms.permissions.label'))
+                        ->relationship('permissions', 'name')
+                        ->columnSpan('full')
+                        ->columns([ 'sm' => 1, 'md' => 2, 'lg' => 3 ])
+                        ->required()
+                ])
             ]);
     }
 

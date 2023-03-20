@@ -8,7 +8,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\{TextInput, Select};
+use Filament\Forms\Components\{TextInput, Select, Grid};
 use Filament\Tables\Columns\{TextColumn};
 use Filament\Tables\Actions\{EditAction, DeleteAction};
 
@@ -37,51 +37,64 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('document')
-                    ->label(__('resources/user.forms.document.label'))
-                    ->placeholder(__('resources/user.forms.document.placeholder'))
-                    ->maxLength(15),
+                Grid::make([
+                    'sm' => 1,
+                    'lg' => 2,
+                ])
+                ->schema([
+                    TextInput::make('document')
+                        ->label(__('resources/user.forms.document.label'))
+                        ->placeholder(__('resources/user.forms.document.placeholder'))
+                        ->columnSpan([ 'sm' => 1, 'lg' => 2 ])
+                        ->maxLength(15),
 
-                TextInput::make('first_name')
-                    ->label(__('resources/user.forms.firstName.label'))
-                    ->placeholder(__('resources/user.forms.firstName.placeholder'))
-                    ->autofocus()
-                    ->required()
-                    ->maxLength(100),
+                    TextInput::make('first_name')
+                        ->label(__('resources/user.forms.firstName.label'))
+                        ->placeholder(__('resources/user.forms.firstName.placeholder'))
+                        ->autofocus()
+                        ->required()
+                        ->columnSpan([ 'sm' => 1, 'lg' => 1 ])
+                        ->maxLength(100),
 
-                TextInput::make('last_name')
-                    ->label(__('resources/user.forms.lastName.label'))
-                    ->placeholder(__('resources/user.forms.lastName.placeholder'))
-                    ->required()
-                    ->maxLength(100),
+                    TextInput::make('last_name')
+                        ->label(__('resources/user.forms.lastName.label'))
+                        ->placeholder(__('resources/user.forms.lastName.placeholder'))
+                        ->required()
+                        ->columnSpan([ 'sm' => 1, 'lg' => 1 ])
+                        ->maxLength(100),
 
-                TextInput::make('email')
-                    ->label(__('resources/user.forms.email.label'))
-                    ->placeholder(__('resources/user.forms.email.placeholder'))
-                    ->type('email')
-                    ->required()
-                    ->maxLength(255),
+                    TextInput::make('email')
+                        ->label(__('resources/user.forms.email.label'))
+                        ->placeholder(__('resources/user.forms.email.placeholder'))
+                        ->type('email')
+                        ->required()
+                        ->columnSpan([ 'sm' => 1, 'lg' => 1 ])
+                        ->maxLength(255),
 
-                TextInput::make('password')
-                    ->label(__('resources/user.forms.password.label'))
-                    ->placeholder(__('resources/user.forms.role.placeholder'))
-                    ->type('password')
-                    ->required()
-                    ->visibleOn('create')
-                    ->maxLength(255),
+                    TextInput::make('password')
+                        ->label(__('resources/user.forms.password.label'))
+                        ->placeholder(__('resources/user.forms.role.placeholder'))
+                        ->type('password')
+                        ->required()
+                        ->visibleOn('create')
+                        ->columnSpan([ 'sm' => 1, 'lg' => 1 ])
+                        ->maxLength(255),
 
-                TextInput::make('phone')
-                    ->label(__('resources/user.forms.phone.label'))
-                    ->placeholder(__('resources/user.forms.phone.placeholder'))
-                    ->maxLength(20),
+                    TextInput::make('phone')
+                        ->label(__('resources/user.forms.phone.label'))
+                        ->placeholder(__('resources/user.forms.phone.placeholder'))
+                        ->columnSpan([ 'sm' => 1, 'lg' => 1 ])
+                        ->maxLength(20),
 
-                Select::make('role_id')
-                    ->relationship('role', 'name')
-                    ->label(__('resources/user.forms.role.label'))
-                    ->placeholder(__('resources/user.forms.role.placeholder'))
-                    ->required()
-                    ->preload()
-                    ->visibleOn('create')
+                    Select::make('role_id')
+                        ->relationship('role', 'name')
+                        ->label(__('resources/user.forms.role.label'))
+                        ->placeholder(__('resources/user.forms.role.placeholder'))
+                        ->required()
+                        ->preload()
+                        ->columnSpan([ 'sm' => 1, 'lg' => 1 ])
+                        ->visibleOn('create')
+                ])
             ]);
     }
 
