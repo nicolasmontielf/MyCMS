@@ -27,5 +27,6 @@ class Banner extends Model implements Sortable
         'active',
         'start_date',
         'end_date',
+        'sort'
     ];
 }
