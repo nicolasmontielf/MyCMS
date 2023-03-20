@@ -1,20 +1,17 @@
 <?php
 
-namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Migrations\Migration;
 use App\Models\Permission;
 use App\Models\Role;
 
-class PermissionsSeeder extends Seeder
+return new class extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
         $adminRole = Role::firstOrCreate(['name' => 'Admin']);
 
@@ -32,6 +29,16 @@ class PermissionsSeeder extends Seeder
             $auxPermission = Permission::firstOrCreate(['name' => $permission]);
             $permissionsIds[] = $auxPermission->id;
         }
-        $adminRole->permissions()->sync($permissionsIds);
+        $adminRole->permissions()->syncWithoutDetaching($permissionsIds);
     }
-}
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
+    }
+};
