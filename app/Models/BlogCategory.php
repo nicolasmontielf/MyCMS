@@ -21,10 +21,4 @@ class BlogCategory extends Model
     {
         return $this->hasMany(BlogPost::class, 'category_id', 'id');
     }
-
-    public function setNameAttribute($name) {
-        $this->attributes['name'] = $name;
-        $this->attributes['slug'] = Str::slug($name);
-    }
-
 }

@@ -11,6 +11,7 @@ use Auth;
 use Filament\Forms\Components\{TextInput, Select, RichEditor, Grid};
 use Filament\Tables\Columns\{TextColumn};
 use Filament\Tables\Actions\{EditAction, DeleteAction};
+use Str;
 
 class BlogPostResource extends Resource
 {
@@ -37,49 +38,63 @@ class BlogPostResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->label(__('resources/blog_post.form.title.label'))
-                    ->placeholder(__('resources/blog_post.form.title.placeholder'))
-                    ->autofocus()
-                    ->required()
-                    ->maxLength(255),
+                Grid::make(2)
+                ->schema([
+                    TextInput::make('title')
+                        ->label(__('resources/blog_post.form.title.label'))
+                        ->placeholder(__('resources/blog_post.form.title.placeholder'))
+                        ->autofocus()
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function (string $context, $state, callable $set) {
+                            $context === 'create' ? $set('slug', Str::slug($state)) : null;
+                        })
+                        ->maxLength(255),
 
-                Select::make('category_id')
-                    ->label(__('resources/blog_post.form.category.label'))
-                    ->placeholder(__('resources/blog_post.form.category.placeholder'))
-                    ->relationship('category', 'name')
-                    ->required(),
+                    TextInput::make('slug')
+                        ->label('Slug')
+                        ->required()
+                        ->unique(BlogPost::class, 'slug', ignoreRecord: true)
+                        ->disabled(),
 
-                TextInput::make('subtitle')
-                    ->label(__('resources/blog_post.form.subtitle.label'))
-                    ->placeholder(__('resources/blog_post.form.subtitle.placeholder'))
-                    ->nullable()
-                    ->maxLength(255),
+                    TextInput::make('subtitle')
+                        ->label(__('resources/blog_post.form.subtitle.label'))
+                        ->placeholder(__('resources/blog_post.form.subtitle.placeholder'))
+                        ->nullable()
+                        ->columnSpan('full')
+                        ->maxLength(255),
 
-                Select::make('tags')
-                    ->label(__('resources/blog_post.form.tags.label'))
-                    ->placeholder(__('resources/blog_post.form.tags.placeholder'))
-                    ->multiple()
-                    ->preload()
-                    ->relationship('tags', 'name')
-                    ->createOptionForm(function () {
-                        $user = Auth::user();
-                        return $user->hasPermissions('blog_tag.create') || $user->isSuperAdmin()
-                        ? [
-                            TextInput::make('name')
-                                ->label(__('resources/blog_post.form.new_tag.label'))
-                                ->placeholder(__('resources/blog_post.form.new_tag.placeholder'))
-                                ->autofocus()
-                                ->required()
-                        ]
-                        : [];
-                    }),
+                    Select::make('category_id')
+                        ->label(__('resources/blog_post.form.category.label'))
+                        ->placeholder(__('resources/blog_post.form.category.placeholder'))
+                        ->relationship('category', 'name')
+                        ->required(),
 
-                RichEditor::make('body')
-                    ->label(__('resources/blog_post.form.body.label'))
-                    ->placeholder(__('resources/blog_post.form.body.placeholder'))
-                    ->required()
-                    ->columnSpan('full'),
+                    Select::make('tags')
+                        ->label(__('resources/blog_post.form.tags.label'))
+                        ->placeholder(__('resources/blog_post.form.tags.placeholder'))
+                        ->multiple()
+                        ->preload()
+                        ->relationship('tags', 'name')
+                        ->createOptionForm(function () {
+                            $user = Auth::user();
+                            return $user->hasPermissions('blog_tag.create') || $user->isSuperAdmin()
+                            ? [
+                                TextInput::make('name')
+                                    ->label(__('resources/blog_post.form.new_tag.label'))
+                                    ->placeholder(__('resources/blog_post.form.new_tag.placeholder'))
+                                    ->autofocus()
+                                    ->required()
+                            ]
+                            : [];
+                        }),
+
+                    RichEditor::make('body')
+                        ->label(__('resources/blog_post.form.body.label'))
+                        ->placeholder(__('resources/blog_post.form.body.placeholder'))
+                        ->required()
+                        ->columnSpan('full'),
+                ])
             ]);
     }
 

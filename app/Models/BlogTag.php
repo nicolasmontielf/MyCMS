@@ -15,11 +15,6 @@ class BlogTag extends Model
         'slug'
     ];
 
-    public function setNameAttribute($name) {
-        $this->attributes['name'] = $name;
-        $this->attributes['slug'] = Str::slug($name);
-    }
-
     public function posts()
     {
         return $this->belongsToMany(BlogPost::class, 'blog_post_tag', 'tag_id', 'post_id');

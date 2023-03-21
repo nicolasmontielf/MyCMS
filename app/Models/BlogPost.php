@@ -20,12 +20,6 @@ class BlogPost extends Model
         'image',
     ];
 
-    public function setTitleAttribute($value)
-    {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
-    }
-
     public function category()
     {
         return $this->belongsTo(BlogCategory::class, 'category_id', 'id');

@@ -10,6 +10,7 @@ use Filament\Resources\Table;
 use Filament\Forms\Components\{TextInput, Textarea};
 use Filament\Tables\Columns\{TextColumn};
 use Filament\Tables\Actions\{EditAction, DeleteAction};
+use Str;
 
 class BlogCategoryResource extends Resource
 {
@@ -41,7 +42,17 @@ class BlogCategoryResource extends Resource
                     ->placeholder(__('resources/blog_category.forms.name.placeholder'))
                     ->autofocus()
                     ->required()
+                    ->lazy()
+                    ->afterStateUpdated(function (string $context, $state, callable $set) {
+                        $context === 'create' ? $set('slug', Str::slug($state)) : null;
+                    })
                     ->maxLength(255),
+
+                TextInput::make('slug')
+                    ->label('Slug')
+                    ->required()
+                    ->unique(BlogCategory::class, 'slug', ignoreRecord: true)
+                    ->disabled(),
 
                 Textarea::make('description')
                     ->label(__('resources/blog_category.forms.description.label'))
